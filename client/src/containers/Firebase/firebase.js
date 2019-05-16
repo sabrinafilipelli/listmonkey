@@ -5,7 +5,7 @@ import { config } from './config'
 
 /**
  * @class Firebase
- * @description Creates an instance of a firebase application and provides all of the require methods for initializing, generating, and interacting with required APIs
+ * @description Creates an instance of Firebase with relevant API methods
  */
 
 class Firebase {
@@ -35,7 +35,8 @@ class Firebase {
     this.githubProvider = new app.auth.GithubAuthProvider()
   }
 
-  // Authorization API Methods -- All of these class methods will           handle the invocation of a function that is from the Firebase        API
+  // Authorization API Methods
+  // Each invokes a Firebase Auth API Function
 
   /**
    * @method doCreateUserWithEmailandPassword
@@ -52,7 +53,7 @@ class Firebase {
    * @method doSignInWithEmailAndPassword
    * @param {string} email
    * @param {string} password
-   * @description Will sign in an existing user and also handles all                  the hashing and encoding as it invokes a Firebase                   API function.
+   * @description Will sign in an existing user and handle hashing/encoding.
    *
    */
 
@@ -64,7 +65,7 @@ class Firebase {
    * @method doSignInWithFacebook
    * @method doSignInWithTwitter
    * @method doSignInWithGithub
-   * @description Invokes the corresponding Firebase OAuth2.0 Sign-in                 APIs
+   * @description Invokes the corresponding Firebase OAuth2.0 Sign-in APIs
    *
    */
 
@@ -86,7 +87,7 @@ class Firebase {
   /**
    * @method doPasswordReset
    * @method doPasswordUpdate
-   * @description These Firebase API functions allow users to reset                   and update their existing passwords.
+   * @description These Firebase API functions allow users to reset and update their existing passwords.
    *
    */
 
@@ -96,7 +97,7 @@ class Firebase {
 
   /**
    * @method doSendEmailVerification
-   * @description When a new user signs up with an email and password, this Firebase API will use a second-factor email based verification to authorize the user.
+   * @description Verifies email when user signs up with an email && password.
    */
 
   doSendEmailVerification = () =>
