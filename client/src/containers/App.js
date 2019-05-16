@@ -10,8 +10,8 @@ import HomePage from '../views/Home'
 import AccountPage from '../views/Account'
 import AdminPage from '../views/Admin'
 
-import * as ROUTES from '../constants/routes'
 import { withAuthentication } from './Sessions'
+import * as ROUTES from '../constants/routes'
 
 const App = () => (
   <Router>

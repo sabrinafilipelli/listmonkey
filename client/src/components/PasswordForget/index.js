@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { withFirebase } from '../../containers/Firebase'
+import Form from './Form'
 
 const PasswordForgetFormBase = props => {
   const [email, setEmail] = useState('')
@@ -21,20 +22,7 @@ const PasswordForgetFormBase = props => {
     setEmail(e.target.value)
   }
 
-  return (
-    <form onSubmit={onSubmit}>
-      <input
-        name="email"
-        value={email}
-        onChange={onChange}
-        type="text"
-        placeholder="Email Address"
-      />
-      <button disabled={email === ''} type="submit">
-        Reset My Password
-      </button>
-    </form>
-  )
+  return <Form email={email} onChange={onChange} onSubmit={onSubmit} />
 }
 
 export default withFirebase(PasswordForgetFormBase)
