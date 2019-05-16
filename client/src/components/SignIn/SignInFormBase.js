@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import * as ROUTES from '../../constants/routes'
 import { INITIAL_STATE } from '../../constants/SignIn'
+
 export class SignInFormBase extends Component {
   constructor(props) {
     super(props)
@@ -22,7 +24,7 @@ export class SignInFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
   render() {
-    const { email, password, error } = this.state
+    const { email, password } = this.state
     const isInvalid = password === '' || email === ''
     return (
       <form onSubmit={this.onSubmit}>

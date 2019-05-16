@@ -3,6 +3,8 @@ import {
   ERROR_CODE_ACCOUNT_EXISTS,
   ERROR_MSG_ACCOUNT_EXISTS
 } from '../../constants/SignIn'
+import * as ROUTES from '../../constants/routes'
+
 export class SignInTwitterBase extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +34,6 @@ export class SignInTwitterBase extends Component {
     event.preventDefault()
   }
   render() {
-    const { error } = this.state
     return (
       <form onSubmit={this.onSubmit}>
         <button type="submit">Sign In with Twitter</button>
