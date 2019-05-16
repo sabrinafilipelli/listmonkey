@@ -1,11 +1,16 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
-admin.initializeApp()
+const serviceAccount = require('./config.json')
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://chore-monkey-app.firebaseio.com'
+})
+
 const express = require('express')
 const cookieParser = require('cookie-parser')()
 const cors = require('cors')({ origin: true })
 const app = express()
-
 // Express middleware that validates Firebase ID Tokens passed in the Authorization HTTP header.
 // The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
 // `Authorization: Bearer <Firebase ID Token>`.
