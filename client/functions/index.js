@@ -67,4 +67,4 @@ app.get('/hello', (req, res, next) => {
   next()
 })
 
-exports.functions.https.onRequest(app)
+exports.app = functions.https.onRequest(app)
