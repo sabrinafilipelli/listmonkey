@@ -32,7 +32,6 @@ class Firebase {
     this.googleProvider = new app.auth.GoogleAuthProvider()
     this.facebookProvider = new app.auth.FacebookAuthProvider()
     this.twitterProvider = new app.auth.TwitterAuthProvider()
-    this.githubProvider = new app.auth.GithubAuthProvider()
   }
 
   // Authorization API Methods
@@ -64,7 +63,6 @@ class Firebase {
    * @method doSignInWithGoogle
    * @method doSignInWithFacebook
    * @method doSignInWithTwitter
-   * @method doSignInWithGithub
    * @description Invokes the corresponding Firebase OAuth2.0 Sign-in APIs
    *
    */
@@ -74,8 +72,6 @@ class Firebase {
   doSignInWithFacebook = () => this.auth.signInWithPopup(this.facebookProvider)
 
   doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider)
-
-  doSignInWithGithub = () => this.auth.signInWithPopup(this.githubProvider)
 
   /**
    * @method doSignOut
