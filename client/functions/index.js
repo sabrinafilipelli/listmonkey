@@ -5,6 +5,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')()
 const cors = require('cors')({ origin: true })
 const app = express()
+const roles = {ta: [{section: 'webpt7,' isCurrent: true}], pm: [{section: 'web17', isCurrent: false}], student: [{section: 'cs14, isCurrent: false}, {section: 'labs12', isCurrent: false}]}
 
 // Express middleware that validates Firebase ID Tokens passed in the Authorization HTTP header.
 // The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
