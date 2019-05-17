@@ -5,9 +5,9 @@ import * as SIGNINCONSTS from '../../constants/SignIn'
 export const SignInTwitterBase = ({ history, firebase }) => {
   const onSubmit = async e => {
     e.preventDefault()
-    const socialAuthUser = await firebase.doSignInWithTwitter()
 
     try {
+      const socialAuthUser = await firebase.doSignInWithTwitter()
       return firebase.user(socialAuthUser.user.uid).set({
         username: socialAuthUser.additionalUserInfo.profile.name,
         email: socialAuthUser.additionalUserInfo.profile.email,

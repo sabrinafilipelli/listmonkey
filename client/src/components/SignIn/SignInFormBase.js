@@ -7,6 +7,7 @@ const SignInFormBase = ({ history, firebase }) => {
   const [password, setPassword] = useState('')
 
   const onSubmit = async e => {
+    e.preventDefault()
     try {
       await firebase.doSignInWithEmailAndPassword(email, password)
     } catch (e) {
@@ -15,16 +16,13 @@ const SignInFormBase = ({ history, firebase }) => {
       history.push(ROUTES.HOME)
     }
   }
-  const onChange = e => {
-    setEmail(e.target.value)
-    setPassword(e.target.value)
-  }
 
   return (
     <Form
       email={email}
       password={password}
-      onChange={onChange}
+      setEmail={setEmail}
+      setPassword={setPassword}
       onSubmit={onSubmit}
     />
   )

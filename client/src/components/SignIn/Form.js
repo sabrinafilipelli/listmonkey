@@ -1,19 +1,19 @@
 import React from 'react'
 
-const Form = ({ email, password, onChange, onSubmit }) => {
+const Form = ({ email, password, setEmail, setPassword, onSubmit }) => {
   return (
     <form onSubmit={onSubmit}>
       <input
         name="email"
         value={email}
-        onChange={onChange}
+        onChange={e => setEmail(e.target.value)}
         type="text"
         placeholder="Email Address"
       />
       <input
         name="password"
         value={password}
-        onChange={onChange}
+        onChange={e => setPassword(e.target.value)}
         type="password"
         placeholder="Password"
       />
