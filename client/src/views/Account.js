@@ -7,7 +7,7 @@ import {
   withEmailVerification
 } from '../containers/Sessions'
 import { withFirebase } from '../containers/Firebase'
-import { PasswordForgetForm } from '../components/PasswordForget'
+import PasswordForgetForm from '../components/PasswordForget'
 import PasswordChangeForm from '../components/PasswordChange'
 
 const SIGN_IN_METHODS = [
