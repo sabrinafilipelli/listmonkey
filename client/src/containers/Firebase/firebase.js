@@ -111,17 +111,13 @@ class Firebase {
           .then(snapshot => {
             const dbUser = snapshot.val()
 
-            // default user is created with no admin rights
-            if (!dbUser.roles) {
-              dbUser.roles = {}
-            }
-
             // merges authorized admin user with dbUser
             authUser = {
               uid: authUser.uid,
               email: authUser.email,
               emailVerified: authUser.emailVerified,
               providerData: authUser.providerData,
+              roles: { ADMIN: 'ADMIN' },
               ...dbUser
             }
 

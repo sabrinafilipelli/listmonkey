@@ -1,51 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import * as ROUTES from '../../constants/routes'
-import { INITIAL_STATE } from '../../constants/SignIn'
+import Form from './Form'
 
-export class SignInFormBase extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { ...INITIAL_STATE }
+const SignInFormBase = ({ history, firebase }) => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onSubmit = async e => {
+    try {
+      await firebase.doSignInWithEmailAndPassword(email, password)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      history.push(ROUTES.HOME)
+    }
   }
-  onSubmit = event => {
-    const { email, password } = this.state
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE })
-        this.props.history.push(ROUTES.HOME)
-      })
-      .catch(error => {
-        this.setState({ error })
-      })
-    event.preventDefault()
+  const onChange = e => {
+    setEmail(e.target.value)
+    setPassword(e.target.value)
   }
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-  }
-  render() {
-    const { email, password } = this.state
-    const isInvalid = password === '' || email === ''
-    return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
-      </form>
-    )
-  }
+
+  return (
+    <Form
+      email={email}
+      password={password}
+      onChange={onChange}
+      onSubmit={onSubmit}
+    />
+  )
 }
+
+export { SignInFormBase }

@@ -1,43 +1,31 @@
-import React, { Component } from 'react'
-import {
-  ERROR_CODE_ACCOUNT_EXISTS,
-  ERROR_MSG_ACCOUNT_EXISTS
-} from '../../constants/SignIn'
+import React from 'react'
 import * as ROUTES from '../../constants/routes'
+import * as SIGNINCONSTS from '../../constants/SignIn'
 
-export class SignInTwitterBase extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { error: null }
-  }
-  onSubmit = event => {
-    this.props.firebase
-      .doSignInWithTwitter()
-      .then(socialAuthUser => {
-        // Create a user in your Firebase Realtime Database too
-        return this.props.firebase.user(socialAuthUser.user.uid).set({
-          username: socialAuthUser.additionalUserInfo.profile.name,
-          email: socialAuthUser.additionalUserInfo.profile.email,
-          roles: {}
-        })
+export const SignInTwitterBase = ({ history, firebase }) => {
+  const onSubmit = async e => {
+    e.preventDefault()
+    const socialAuthUser = await firebase.doSignInWithTwitter()
+
+    try {
+      return firebase.user(socialAuthUser.user.uid).set({
+        username: socialAuthUser.additionalUserInfo.profile.name,
+        email: socialAuthUser.additionalUserInfo.profile.email,
+        roles: {}
       })
-      .then(() => {
-        this.setState({ error: null })
-        this.props.history.push(ROUTES.HOME)
-      })
-      .catch(error => {
-        if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-          error.message = ERROR_MSG_ACCOUNT_EXISTS
-        }
-        this.setState({ error })
-      })
-    event.preventDefault()
+    } catch (e) {
+      if (e.code === SIGNINCONSTS.ERROR_CODE_ACCOUNT_EXISTS) {
+        e.message = SIGNINCONSTS.ERROR_MSG_ACCOUNT_EXISTS
+      }
+      console.error(e.code, e.message)
+    } finally {
+      history.push(ROUTES.HOME)
+    }
   }
-  render() {
-    return (
-      <form onSubmit={this.onSubmit}>
-        <button type="submit">Sign In with Twitter</button>
-      </form>
-    )
-  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <button type="submit">Sign In with Twitter</button>
+    </form>
+  )
 }
