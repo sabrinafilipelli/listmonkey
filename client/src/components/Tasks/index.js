@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import Task from './Task'
-import axios from 'axios'
+import React, { useContext, useReducer } from 'react'
+import TasksContext from './context'
+import reducer from './reducer'
+import { Tasks } from './Tasks'
 
-const Tasks = () => {
-  const [tasks, setTasks] = useState([])
-  useEffect(() => {
-    async function getTasks() {
-      const res = await axios.get('https://chore-monkey.herokuapp.com/api/tasks')
-      setTasks(res.data.data)
-    }
-    getTasks()
-  }, [])
-  
+const TasksStore = () => {
+  const initialState = useContext(TasksContext)
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
-    <div>
-    {tasks.map(task => <Task {...task} key={task.id}/>)}
-    </div>
+    <TasksContext.Provider value={{ state, dispatch }}>
+      <Tasks />
+    </TasksContext.Provider>
   )
 }
 
-export default Tasks
+export default TasksStore
