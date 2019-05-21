@@ -57,7 +57,6 @@ function contentEditable(WrappedComponent) {
         case 'Escape':
           this.save()
           break
-          
       }
     }
 
@@ -113,12 +112,7 @@ export class App extends React.Component {
           <input type="submit" value="submit" />
         </form>
 
-        <div
-          css={css`
-            width: 20%;
-            font-size: 4rem;
-          `}
-        >
+        <div>
           {this.state.notes.map(note => (
             <EditableP key={uuidv4()} value={note} />
           ))}
@@ -127,3 +121,5 @@ export class App extends React.Component {
     )
   }
 }
+
+export default contentEditable
