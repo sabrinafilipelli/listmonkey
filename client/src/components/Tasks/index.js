@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Task from './Task'
-import Description from './Description'
-import Date from './Date'
-import Button from './Button'
-import Checkbox from './Checkbox'
+import axios from 'axios'
 
 const Tasks = () => {
+  const [tasks, setTasks] = useState([])
+  useEffect(() => {
+    async function getTasks() {
+      const res = await axios.get('https://chore-monkey.herokuapp.com/api/tasks')
+      setTasks(res.data.data)
+    }
+    getTasks()
+  }, [])
+  
   return (
     <div>
-      <Task />
-      <Description />
-      <Date />
-      <Button />
-      <Checkbox />
+    {tasks.map(task => <Task {...task} key={task.id}/>)}
     </div>
   )
 }

@@ -9,7 +9,7 @@ import PasswordForgetPage from '../components/PasswordForget'
 import HomePage from '../views/Home'
 import AccountPage from '../views/Account'
 import AdminPage from '../views/Admin'
-
+import Tasks from '../components/Tasks'
 import { withAuthentication } from './Sessions'
 import * as ROUTES from '../constants/routes'
 
@@ -27,6 +27,7 @@ const App = () => (
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
+      <Route path="/tasks" component={Tasks} />
     </div>
   </Router>
 )

@@ -31,6 +31,9 @@ const NavigationAuth = ({ authUser }) => (
       </li>
     )}
     <li>
+      <Link to="/tasks">Tasks</Link>
+    </li>
+    <li>
       <SignOutButton />
     </li>
   </ul>
