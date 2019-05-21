@@ -2,19 +2,17 @@ import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import posed, { PoseGroup } from "react-pose";
 import { AuthUserContext } from "../containers/Sessions";
-import SignOutButton from "../components/SignOut";
-import * as ROLES from "../constants/roles";
+import SignOutButton from "../containers/Firebase";
 
 import LandingPage from "../views/Landing";
-import SignUpPage from "../components/SignUp";
-import SignInPage from "../components/SignIn";
-import PasswordForgetPage from "../components/PasswordForget";
+import SignUpPage from "../containers/Firebase";
+import SignInPage from "./Firebase/SignIn";
+import PasswordForgetPage from "../containers/Firebase";
 import HomePage from "../views/Home";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Admin";
 
 import { withAuthentication } from "./Sessions";
-import * as ROUTES from "../constants/routes";
 
 const RouteContainer = posed.div({
   enter: { opacity: 1, delay: 300 },
@@ -58,7 +56,7 @@ const NavigationAuth = ({ authUser }) => {
         <li>
           <Link to="/account">Account</Link>
         </li>
-        {!!authUser.roles[ROLES.ADMIN] && (
+        {!!authUser.roles["ADMIN"] && (
           <li>
             <Link to="/admin">Admin</Link>
           </li>
