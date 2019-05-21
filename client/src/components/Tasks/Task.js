@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components/macro'
 import moment from 'moment'
-const Task = ({ title, dueDate, createdAt, isComplete }) => {
+import TasksContext from './context'
+import axios from 'axios'
+
+const Task = ({ title, createdAt, isComplete, id }) => {
+  const { dispatch } = useContext(TasksContext)
   return (
     <TaskContainer>
       <p>{title}</p>
       <p>{moment().calendar(createdAt)}</p>
       <p>{isComplete ? `COMPLETE` : `NOT DONE`}</p>
+      <button
+        onClick={async () => {
+          try {
+            await axios.delete(`http://localhost:5000/api/tasks/${id}`)
+            dispatch({ type: 'DELETE_TASK', id })
+          } catch (error) {
+            dispatch({ type: 'DELETE_TASK', id })
+          }
+        }}
+      >
+        DELETE
+      </button>
     </TaskContainer>
   )
 }

@@ -3,7 +3,7 @@ export default function reducer(state, action) {
     case 'GET_TASKS':
       return {
         ...state,
-        tasks: [...state.tasks, ...action.payload]
+        tasks: [...action.payload]
       }
 
     case 'ADD_TASK':
@@ -11,6 +11,18 @@ export default function reducer(state, action) {
         ...state,
         tasks: [...state.tasks, action.payload]
       }
+
+    case 'DELETE_TASK':
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.id)
+      }
+    case 'UPDATE':
+      return {
+        ...state,
+        tasks: state.tasks
+      }
+
     default:
       return state
   }
