@@ -3,7 +3,13 @@ export default function reducer(state, action) {
     case 'GET_TASKS':
       return {
         ...state,
-        tasks: [...action.payload]
+        tasks: [...state.tasks, ...action.payload]
+      }
+
+    case 'ADD_TASK':
+      return {
+        ...state,
+        tasks: [...state.tasks, action.payload]
       }
     default:
       return state
