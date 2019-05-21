@@ -10,3 +10,7 @@ The following repository contains the frontend implementation and all associated
    `yarn` , `npm i` or `pnpm i`
 3. Run the localhost web server using:  
    `yarn start`, `npm start`, or `pnpm start`.
+
+
+
+## Tasks API

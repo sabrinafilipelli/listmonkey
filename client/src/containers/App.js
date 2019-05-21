@@ -1,23 +1,23 @@
-import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import posed, { PoseGroup } from "react-pose";
-import { AuthUserContext } from "../containers/Sessions";
-import SignOutButton from "../containers/Firebase";
+import React from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
+import posed, { PoseGroup } from 'react-pose'
+import { AuthUserContext } from '../containers/Sessions'
+import SignOutButton from '../containers/Firebase'
 
-import LandingPage from "../views/Landing";
-import SignUpPage from "../containers/Firebase";
-import SignInPage from "./Firebase/SignIn";
-import PasswordForgetPage from "../containers/Firebase";
-import HomePage from "../views/Home";
-import AccountPage from "../views/Account";
-import AdminPage from "../views/Admin";
+import LandingPage from '../views/Landing'
+import SignUpPage from '../containers/Firebase'
+import SignInPage from './Firebase/SignIn'
+import PasswordForgetPage from '../containers/Firebase'
+import HomePage from '../views/Home'
+import AccountPage from '../views/Account'
+import AdminPage from '../views/Admin'
 
-import { withAuthentication } from "./Sessions";
+import { withAuthentication } from './Sessions'
 
 const RouteContainer = posed.div({
   enter: { opacity: 1, delay: 300 },
   exit: { opacity: 0 }
-});
+})
 
 const App = () => (
   <Route
@@ -40,8 +40,8 @@ const App = () => (
       </div>
     )}
   />
-);
-export default withAuthentication(App);
+)
+export default withAuthentication(App)
 
 const NavigationAuth = ({ authUser }) => {
   return (
@@ -56,7 +56,7 @@ const NavigationAuth = ({ authUser }) => {
         <li>
           <Link to="/account">Account</Link>
         </li>
-        {!!authUser.roles["ADMIN"] && (
+        {!!authUser.roles['ADMIN'] && (
           <li>
             <Link to="/admin">Admin</Link>
           </li>
@@ -66,8 +66,8 @@ const NavigationAuth = ({ authUser }) => {
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
 const NavigationNonAuth = () => (
   <nav className="nav-wrapper black">
@@ -92,7 +92,7 @@ const NavigationNonAuth = () => (
       </ul>
     </div>
   </nav>
-);
+)
 
 const Navigation = () => (
   <AuthUserContext.Consumer>
@@ -100,4 +100,4 @@ const Navigation = () => (
       authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
     }
   </AuthUserContext.Consumer>
-);
+)
