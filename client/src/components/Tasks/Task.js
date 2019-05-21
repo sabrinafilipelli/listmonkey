@@ -3,13 +3,16 @@ import styled from 'styled-components/macro'
 import moment from 'moment'
 import TasksContext from './context'
 import axios from 'axios'
+import contentEditable from './EditTask'
 
-const Task = ({ title, createdAt, isComplete, id }) => {
+const Task = ({ title, createdAt, isComplete, description, id }) => {
+  const EditP = contentEditable('p')
   const { dispatch } = useContext(TasksContext)
   return (
     <TaskContainer>
-      <p>{title}</p>
+      <EditP value={title} />
       <p>{moment().calendar(createdAt)}</p>
+      <EditP value={description} />
       <p>{isComplete ? `COMPLETE` : `NOT DONE`}</p>
       <button
         onClick={async () => {
