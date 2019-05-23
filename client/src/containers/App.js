@@ -67,6 +67,9 @@ const NavigationAuth = ({ authUser }) => {
           </li>
         )}
         <li>
+          <Link to="/billing">Go Premium</Link>
+        </li>
+        <li>
           <SignOutButton />
         </li>
       </ul>
