@@ -1,7 +1,7 @@
-import app from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import { config } from "./config";
+import app from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+import { config } from './config'
 
 /**
  * @class Firebase
@@ -12,26 +12,26 @@ class Firebase {
   constructor() {
     // Main initialization of firebase
 
-    app.initializeApp(config);
+    app.initializeApp(config)
 
     // Helper - Database && Server Connectivity
 
-    this.serverValue = app.database.ServerValue;
+    this.serverValue = app.database.ServerValue
 
     // Helper - Email Authentication Initialization
 
-    this.emailAuthProvider = app.auth.EmailAuthProvider;
+    this.emailAuthProvider = app.auth.EmailAuthProvider
 
     // Firebase auth and database APIs
 
-    this.auth = app.auth();
-    this.db = app.database();
+    this.auth = app.auth()
+    this.db = app.database()
 
     // Instantiates a new OAuth provider for a given social app
 
-    this.googleProvider = new app.auth.GoogleAuthProvider();
-    this.facebookProvider = new app.auth.FacebookAuthProvider();
-    this.twitterProvider = new app.auth.TwitterAuthProvider();
+    this.googleProvider = new app.auth.GoogleAuthProvider()
+    this.facebookProvider = new app.auth.FacebookAuthProvider()
+    this.twitterProvider = new app.auth.TwitterAuthProvider()
   }
 
   // Authorization API Methods
@@ -46,7 +46,7 @@ class Firebase {
    */
 
   doCreateUserWithEmailAndPassword = (email, password) =>
-    this.auth.createUserWithEmailAndPassword(email, password);
+    this.auth.createUserWithEmailAndPassword(email, password)
 
   /**
    * @method doSignInWithEmailAndPassword
@@ -57,7 +57,7 @@ class Firebase {
    */
 
   doSignInWithEmailAndPassword = (email, password) =>
-    this.auth.signInWithEmailAndPassword(email, password);
+    this.auth.signInWithEmailAndPassword(email, password)
 
   /**
    * @method doSignInWithGoogle
@@ -67,18 +67,18 @@ class Firebase {
    *
    */
 
-  doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
+  doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider)
 
-  doSignInWithFacebook = () => this.auth.signInWithPopup(this.facebookProvider);
+  doSignInWithFacebook = () => this.auth.signInWithPopup(this.facebookProvider)
 
-  doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider);
+  doSignInWithTwitter = () => this.auth.signInWithPopup(this.twitterProvider)
 
   /**
    * @method doSignOut
    * @description Firebase API sign out function.
    */
 
-  doSignOut = () => this.auth.signOut();
+  doSignOut = () => this.auth.signOut()
 
   /**
    * @method doPasswordReset
@@ -87,9 +87,9 @@ class Firebase {
    *
    */
 
-  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email)
 
-  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password)
 
   /**
    * @method doSendEmailVerification
@@ -98,8 +98,8 @@ class Firebase {
 
   doSendEmailVerification = () =>
     this.auth.currentUser.sendEmailVerification({
-      url: "https://chore-monkey-app.firebaseapp.com/"
-    });
+      url: 'https://chore-monkey-app.firebaseapp.com/'
+    })
 
   // Helper method which merges the Firebase Authentication Storage Container with the Realtime Database API
 
@@ -107,9 +107,9 @@ class Firebase {
     this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.user(authUser.uid)
-          .once("value")
+          .once('value')
           .then(snapshot => {
-            const dbUser = snapshot.val();
+            const dbUser = snapshot.val()
 
             // merges authorized admin user with dbUser
             authUser = {
@@ -117,24 +117,24 @@ class Firebase {
               email: authUser.email,
               emailVerified: authUser.emailVerified,
               providerData: authUser.providerData,
-              roles: { ADMIN: "ADMIN" },
+              roles: { ADMIN: 'ADMIN' },
               ...dbUser
-            };
+            }
 
-            next(authUser);
-          });
+            next(authUser)
+          })
       } else {
-        fallback();
+        fallback()
       }
-    });
+    })
 
   // User API Methods
 
   // Returns a user by id
-  user = uid => this.db.ref(`users/${uid}`);
+  user = uid => this.db.ref(`users/${uid}`)
 
   // Returns all users
-  users = () => this.db.ref("users");
+  users = () => this.db.ref('users')
 }
 
-export default Firebase;
+export default Firebase

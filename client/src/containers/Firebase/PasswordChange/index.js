@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withFirebase } from '../../containers/Firebase'
+import { withFirebase } from '../../../containers/Firebase'
 import Form from './Form'
 
 const PasswordChangeForm = ({ firebase }) => {
