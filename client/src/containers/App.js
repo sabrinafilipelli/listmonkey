@@ -82,6 +82,7 @@ const NavigationNonAuth = () => (
             Home
           </Link>
         </li>
+
         <li>
           <Link
             className="waves-effect waves-light pink-text lighten-5 btn transparent"
