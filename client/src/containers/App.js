@@ -8,7 +8,7 @@ import LandingPage from "../views/Landing";
 import SignUpPage from "../containers/Firebase/SignUp";
 import SignInPage from "./Firebase/SignIn";
 import PasswordForgetPage from "../containers/Firebase";
-import HomePage from "../views/Home";
+import Dashboard from "../views/Dashboard";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Dashboard";
 import styles from "../styles/index.css";
@@ -32,7 +32,7 @@ const App = () => (
               <Route path="/signup" component={SignUpPage} />
               <Route path="/login" component={SignInPage} />
               <Route path="/reset" component={PasswordForgetPage} />
-              <Route path="/dashboard" component={HomePage} />
+              <Route path="/dashboard" component={Dashboard} />
               <Route path="/account" component={AccountPage} />
               <Route path="/admin" component={AdminPage} />
             </Switch>
@@ -51,15 +51,13 @@ const NavigationAuth = ({ authUser }) => {
         <li>
           <Link to="/">Home</Link>
         </li>
-        <li>
-          <Link to="/dashboard">Profile</Link>
-        </li>
+
         <li>
           <Link to="/account">Account</Link>
         </li>
         {!!authUser.roles["ADMIN"] && (
           <li>
-            <Link to="/admin">Admin</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
         )}
         <li>
