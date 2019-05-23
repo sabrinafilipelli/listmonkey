@@ -2,17 +2,17 @@ import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import posed, { PoseGroup } from "react-pose";
 import { AuthUserContext } from "../containers/Sessions";
-import SignOutButton from "../containers/Firebase";
+import SignOutButton from "../containers/Firebase/SignOut";
 
 import LandingPage from "../views/Landing";
-import SignUpPage from "../containers/Firebase";
+import SignUpPage from "../containers/Firebase/SignUp";
 import SignInPage from "./Firebase/SignIn";
 import PasswordForgetPage from "../containers/Firebase";
 import HomePage from "../views/Home";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Dashboard";
-
 import styles from "../styles/index.css";
+
 import { withAuthentication } from "./Sessions";
 
 const RouteContainer = posed.div({
@@ -82,6 +82,7 @@ const NavigationNonAuth = () => (
             Home
           </Link>
         </li>
+
         <li>
           <Link
             className="waves-effect waves-light pink-text lighten-5 btn transparent"
