@@ -1,35 +1,104 @@
-import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import React from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import posed, { PoseGroup } from "react-pose";
+import { AuthUserContext } from "../containers/Sessions";
+import SignOutButton from "../containers/Firebase";
 
-import Navigation from '../views/Navigation'
-import LandingPage from '../views/Landing'
-import SignUpPage from '../components/SignUp'
-import SignInPage from '../components/SignIn'
-import PasswordForgetPage from '../components/PasswordForget'
-import HomePage from '../views/Home'
-import AccountPage from '../views/Account'
-import AdminPage from '../views/Admin'
-import Tasks from '../components/Tasks'
-import { withAuthentication } from './Sessions'
-import * as ROUTES from '../constants/routes'
+import LandingPage from "../views/Landing";
+import SignUpPage from "../containers/Firebase";
+import SignInPage from "./Firebase/SignIn";
+import PasswordForgetPage from "../containers/Firebase";
+import HomePage from "../views/Home";
+import AccountPage from "../views/Account";
+import AdminPage from "../views/Dashboard";
+
+import styles from "../styles/index.css";
+import { withAuthentication } from "./Sessions";
+
+const RouteContainer = posed.div({
+  enter: { opacity: 1, delay: 300 },
+  exit: { opacity: 0 }
+});
 
 const App = () => (
-  <Router>
-    <div>
-      <Navigation />
+  <Route
+    render={({ location }) => (
+      <div id="site-container">
+        <Navigation />
+        <PoseGroup>
+          <RouteContainer key={location.pathname}>
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route path="/signup" component={SignUpPage} />
+              <Route path="/login" component={SignInPage} />
+              <Route path="/reset" component={PasswordForgetPage} />
+              <Route path="/dashboard" component={HomePage} />
+              <Route path="/account" component={AccountPage} />
+              <Route path="/admin" component={AdminPage} />
+            </Switch>
+          </RouteContainer>
+        </PoseGroup>
+      </div>
+    )}
+  />
+);
+export default withAuthentication(App);
 
-      <hr />
+const NavigationAuth = ({ authUser }) => {
+  return (
+    <nav className="nav-wrapper black">
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/dashboard">Profile</Link>
+        </li>
+        <li>
+          <Link to="/account">Account</Link>
+        </li>
+        {!!authUser.roles["ADMIN"] && (
+          <li>
+            <Link to="/admin">Admin</Link>
+          </li>
+        )}
+        <li>
+          <SignOutButton />
+        </li>
+      </ul>
+    </nav>
+  );
+};
 
-      <Route exact path={ROUTES.LANDING} component={LandingPage} />
-      <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-      <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-      <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-      <Route path={ROUTES.HOME} component={HomePage} />
-      <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-      <Route path={ROUTES.ADMIN} component={AdminPage} />
-      <Route path="/tasks" component={Tasks} />
+const NavigationNonAuth = () => (
+  <nav className="nav-wrapper black">
+    <div className="transparent">
+      <ul className="right hide-on-med-and-down">
+        <li>
+          <Link
+            className="waves-effect waves-light pink-text lighten-5 btn transparent"
+            to="/"
+          >
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link
+            className="waves-effect waves-light pink-text lighten-5 btn transparent"
+            to="/login"
+          >
+            Sign In
+          </Link>
+        </li>
+      </ul>
     </div>
-  </Router>
-)
+  </nav>
+);
 
-export default withAuthentication(App)
+const Navigation = () => (
+  <AuthUserContext.Consumer>
+    {authUser =>
+      authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
+    }
+  </AuthUserContext.Consumer>
+);
