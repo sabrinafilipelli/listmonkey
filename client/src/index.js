@@ -1,9 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./containers/App";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
+import App from './containers/App'
 
-import Firebase, { FirebaseContext } from "./containers/Firebase";
+import Firebase, { FirebaseContext } from './containers/Firebase'
 
 ReactDOM.render(
   <BrowserRouter>
@@ -11,5 +11,5 @@ ReactDOM.render(
       <App />
     </FirebaseContext.Provider>
   </BrowserRouter>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
