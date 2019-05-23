@@ -11,7 +11,7 @@ import PasswordForgetPage from "../containers/Firebase";
 import HomePage from "../views/Home";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Dashboard";
-import BillingPage from '../components/billing/BillingPage';
+import BillingPage from '../views/billing/BillingPage';
 
 
 import styles from "../styles/index.css";
