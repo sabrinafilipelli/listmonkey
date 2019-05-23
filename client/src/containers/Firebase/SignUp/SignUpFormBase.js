@@ -1,49 +1,43 @@
-import React, { useState } from 'react'
-import * as ROLES from '../../constants/roles'
-import * as ROUTES from '../../constants/routes'
-import Form from './Form'
-import {
-  ERROR_CODE_ACCOUNT_EXISTS,
-  ERROR_MSG_ACCOUNT_EXISTS
-} from '../../constants/SignUp'
+import React, { useState } from "react";
+import Form from "./Form";
+import axios from "axios";
 
 export const SignUpFormBase = ({ history, firebase }) => {
-  const [user, setUser] = useState('')
-  const [email, setEmail] = useState('')
-  const [passwordOne, setPasswordOne] = useState('')
-  const [passwordTwo, setPasswordTwo] = useState('')
-  const [isAdmin, setIsAdmin] = useState()
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [passwordOne, setPasswordOne] = useState("");
+  const [passwordTwo, setPasswordTwo] = useState("");
+  const [isAdmin, setIsAdmin] = useState();
   const isInvalid =
     passwordOne !== passwordTwo ||
-    passwordOne === '' ||
-    email === '' ||
-    user === ''
-  const roles = {}
+    passwordOne === "" ||
+    email === "" ||
+    user === "";
+  const roles = {};
 
   const onChangeCheckbox = e => {
-    setIsAdmin(!isAdmin)
-  }
+    setIsAdmin(!isAdmin);
+  };
 
   const onSubmit = e => {
-    e.preventDefault()
+    e.preventDefault();
     if (isAdmin) {
-      return (roles[ROLES.ADMIN] = ROLES.ADMIN)
+      return (roles["ADMIN"] = "ADMIN");
     }
 
     firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        return firebase.user(authUser.user.uid).set({ user, email, roles })
+        return firebase.user(authUser.user.uid).set({ user, email, roles });
       })
       .then(() => {
-        return firebase.doSendEmailVerification()
+        return firebase.doSendEmailVerification();
       })
-      .then(() => history.push(ROUTES.HOME))
+      .then(() => history.push("./home"))
       .catch(e => {
-        e.code = ERROR_CODE_ACCOUNT_EXISTS
-        e.message = ERROR_MSG_ACCOUNT_EXISTS
-      })
-  }
+        console.error(e);
+      });
+  };
 
   return (
     <Form
@@ -61,5 +55,5 @@ export const SignUpFormBase = ({ history, firebase }) => {
       onChangeCheckbox={onChangeCheckbox}
       onSubmit={onSubmit}
     />
-  )
-}
+  );
+};
