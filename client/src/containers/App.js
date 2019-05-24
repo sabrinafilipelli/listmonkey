@@ -11,6 +11,9 @@ import PasswordForgetPage from "../containers/Firebase";
 import Dashboard from "../views/Dashboard";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Dashboard";
+import BillingPage from '../views/billing/BillingPage';
+
+
 import styles from "../styles/index.css";
 
 import { withAuthentication } from "./Sessions";
@@ -35,6 +38,7 @@ const App = () => (
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/account" component={AccountPage} />
               <Route path="/admin" component={AdminPage} />
+              <Route path ="/billing" component={BillingPage} />
             </Switch>
           </RouteContainer>
         </PoseGroup>
@@ -60,6 +64,9 @@ const NavigationAuth = ({ authUser }) => {
             <Link to="/dashboard">Dashboard</Link>
           </li>
         )}
+        <li>
+          <Link to="/billing">Go Premium</Link>
+        </li>
         <li>
           <SignOutButton />
         </li>
