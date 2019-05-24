@@ -11,7 +11,7 @@ import PasswordForgetPage from "../containers/Firebase";
 import Dashboard from "../views/Dashboard";
 import AccountPage from "../views/Account";
 import AdminPage from "../views/Dashboard";
-import BillingPage from '../views/billing/BillingPage';
+import BillingForm from '../views/billing/BillingForm';
 
 
 import styles from "../styles/index.css";
@@ -38,7 +38,7 @@ const App = () => (
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/account" component={AccountPage} />
               <Route path="/admin" component={AdminPage} />
-              <Route path ="/billing" component={BillingPage} />
+              <Route path ="/billing" component={BillingForm} />
             </Switch>
           </RouteContainer>
         </PoseGroup>

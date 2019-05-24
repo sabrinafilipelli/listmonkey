@@ -1,35 +1,40 @@
-import React, {Component} from 'react';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import React from 'react'
+import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios'
 
-class CheckoutForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {complete: false};
-    this.submit = this.submit.bind(this);
-  }
+const URL = 'http://localhost:9000/api/charge'
 
-  
-async submit(ev) {
-    let {token} = await this.props.stripe.createToken({name: "Name"});
-    let response = await fetch("/charge", {
-      method: "POST",
-      headers: {"Content-Type": "text/plain"},
-      body: token
-    });
-  
-    if (response.ok) this.setState({complete: true});
-  }
+const successPayment = data => {
+  alert('Payment Successful');
+};
 
-  render() {
-    if (this.state.complete) return <h1>Purchase Complete</h1>; 
+const errorPayment = data => {
+  alert('Payment Error');
+};
+
+export default class BillingForm extends React.Component {
+  onToken = (amount, description) => token =>
+  axios.post(URL,{source: token.id})
+    .then(successPayment)
+    .catch(errorPayment);
+    
+    render() {
       return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
-        <CardElement />
-        <button onClick={this.submit}>Send</button>
-      </div>
-    );
+        <div>
+          <h1>Please Buy Our Premium Things!</h1>
+        <StripeCheckout
+        stripeKey="pk_test_DxmfbYWW8YHJec5ESRF9n0XS002ib6dHug"
+        token={this.onToken}
+        description="For the coolest stuff in the world"
+        amount={1000}
+        currency="USD"
+        name="ChoreMonkey"
+        />
+        </div>
+        )
+    }
   }
-}
-
-export default injectStripe(CheckoutForm);
+      
+      
+    
+    
