@@ -9,7 +9,6 @@
 .topHeaderAndButtons{
     display: flex;
     justify-content: space-between;
-    max-height: 50%;
 }
 .rightBottomView{
     margin-right: 8%;
