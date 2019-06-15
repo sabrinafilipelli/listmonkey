@@ -10,11 +10,13 @@ function useAuth() {
       if (firebase.auth.isSignInWithEmailLink(window.location.href)) {
         let email = window.localStorage.getItem('emailForSignIn')
         const parsed = queryString.parse(window.location.search)
-        console.log(parsed)
-
+        console.log("PARSED:", parsed)
+        console.log("EMAIL:", email)
+        
         if (!email) {
           email = window.prompt('Please provide your email for confirmation.')
         }
+        console.log("EMAIL 2:", email)
 
         firebase.auth
           .signInWithEmailLink(email, window.location.href)
