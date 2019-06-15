@@ -4,11 +4,17 @@ import { ReactComponent as InstaIcon } from "../assets/profile-page/Insta.svg";
 import { ReactComponent as PhoneIcon } from "../assets/profile-page/Phone.svg";
 import { ReactComponent as ThumbIcon } from "../assets/profile-page/Thumb.svg";
 import { ReactComponent as TweetIcon } from "../assets/profile-page/Tweet.svg";
+const userName = JSON.parse(localStorage.getItem("user"))["displayName"]
+// .displayName.match(
+// /^[a-z ,.'-]+$/i
+// )[0]
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+
   render() {
     return (
       <div className="profileContainer">
@@ -23,9 +29,7 @@ class Profile extends React.Component {
         <div className="lower-block">
           <h1 className="profileName">
             {" " +
-              JSON.parse(localStorage.getItem("user")).displayName.match(
-                /^[a-z ,.'-]+$/i
-              )[0]}
+              userName}
           </h1>
           <h3 className="profileLocation">DENVER, CO</h3>
           <div className="socialLinks">
