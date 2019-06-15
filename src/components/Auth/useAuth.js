@@ -17,6 +17,8 @@ function useAuth() {
           email = window.prompt('Please provide your email for confirmation.')
         }
         console.log("EMAIL 2:", email)
+        const href = queryString.parse(window.location.href)
+        console.log(href)
 
         firebase.auth
           .signInWithEmailLink(email, window.location.href)

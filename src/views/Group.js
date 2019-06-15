@@ -24,6 +24,17 @@ const Group = ({ match }) => {
     .collection(`users/${user.uid}/groups`)
     .doc(match.params.groupId)
 
+  const membersRef = firebase.firestore
+    .collection(`users/${user.uid}/groups/${match.params.groupId}/members`)
+    
+    membersRef
+    .onSnapshot(snap => 
+      snap.docs.map(member => console.log(member.data())))
+      // console.log("Snap:", snap.docs[0].data())
+
+    // console.log(membersRef.get().then(cod => console.log(cod)))
+    // console.log(membersRef)
+    
   useEffect(() => {
     groupRef.get().then(doc => setGroupName(doc.data().groupName))
   }, [groupName, groupRef])
@@ -64,6 +75,12 @@ const Group = ({ match }) => {
         <div>
           <h2 className="houseText">House Members</h2>
         </div>
+        {membersRef.onSnapshot(snap =>
+          snap.docs.map(member => {
+            console.log(member.data().displayName)
+            <h1>{member.data().displayName}</<h1>
+          }))
+        }
 {/* Work on this for the Avatars, need to map the members */}
           <div className="membersCardsView">
             <div>
