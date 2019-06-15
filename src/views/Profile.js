@@ -4,7 +4,8 @@ import { ReactComponent as InstaIcon } from "../assets/profile-page/Insta.svg";
 import { ReactComponent as PhoneIcon } from "../assets/profile-page/Phone.svg";
 import { ReactComponent as ThumbIcon } from "../assets/profile-page/Thumb.svg";
 import { ReactComponent as TweetIcon } from "../assets/profile-page/Tweet.svg";
-const userName = JSON.parse(localStorage.getItem("user"))["displayName"]
+const userName = "Luisan"
+// JSON.parse(localStorage.getItem("user"))["displayName"]
 // .displayName.match(
 // /^[a-z ,.'-]+$/i
 // )[0]
@@ -22,7 +23,9 @@ class Profile extends React.Component {
           <div className="coverPhoto">.</div>
           <img
             className="profilePhoto"
-            src={JSON.parse(localStorage.getItem("user")).photoURL}
+            // src={JSON.parse(localStorage.getItem("user")).photoURL}
+            src={"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/BrooklynDeckerJun09.jpg/170px-BrooklynDeckerJun09.jpg"}
+
           />
         </div>
 

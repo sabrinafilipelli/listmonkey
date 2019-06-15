@@ -9,6 +9,9 @@ import { ReactComponent as ListIcon } from '../../assets/dashboard/icons/list.sv
 import { ReactComponent as CalendarIcon } from '../../assets/dashboard/icons/calendar.svg'
 import { ReactComponent as SettingsIcon } from '../../assets/dashboard/icons/settings.svg'
 
+// JSON.parse(localStorage.getItem('user')).displayName.match(
+//   /[^\s,.'"!?]+/
+// )[0]
 function Dashboard({ history }) {
   return (
     <div className="Dashboard">
@@ -17,9 +20,7 @@ function Dashboard({ history }) {
         <h1>
           Welcome Back,
           {' ' +
-            JSON.parse(localStorage.getItem('user')).displayName.match(
-              /[^\s,.'"!?]+/
-            )[0]}
+            "Luisan"}
         </h1>
       </div>
 
@@ -86,13 +87,15 @@ function Dashboard({ history }) {
           <ListIcon
             className="di hvr-push  "
             onClick={() => {
-              history.push(`/mytasks/${JSON.parse(localStorage.getItem("user")).uid}`)
+              // history.push(`/mytasks/${JSON.parse(localStorage.getItem("user")).uid}`)
+              history.push('/404')
             }}
           />
           <p
             className=" hvr-push  "
             onClick={() => {
-              history.push(`/mytasks/${JSON.parse(localStorage.getItem("user")).uid}`)
+              // history.push(`/mytasks/${JSON.parse(localStorage.getItem("user")).uid}`)
+              history.push('/404')
             }}
           >
             MY TASKS
