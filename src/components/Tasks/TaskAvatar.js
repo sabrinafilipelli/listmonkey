@@ -15,19 +15,26 @@ const useStyles = makeStyles({
     }
   })
 
+  // function ProfilePhotoTask({assigned, user}) tal vez asi?
   function ProfilePhotoTask(props) {
     const classes = useStyles()
+    console.log(props)
     // const [editedAssigned, setEditedAssigned] = useState(assigned)  
     // const id = JSON.parse(localStorage.getItem('user')).uid
 
     return (
       <div className="avatar-and-name">
-        <Avatar
-          alt="photo of user"
-          src={props.user.profilePicture}
-          className={classes.Avatar}
-        />
-          <span className="user-name">
+        <div onClick={props.onClick}>
+          <Avatar
+            alt="photo of user"
+            src={props.user.profilePicture}
+            className={classes.Avatar}
+            />
+        </div>
+          <span 
+            className="user-name"
+            onClick={props.onClick}
+          >
            {props.user.displayName.match(/[^\s,.'"!?]+/)[0]}
              {/* <input
               type="text"

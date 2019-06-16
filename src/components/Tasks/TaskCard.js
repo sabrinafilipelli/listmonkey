@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import FirebaseContext from '../../firebase/context'
 import Tooltip from "@material-ui/core/Tooltip"
 import TaskModal from './TaskModal'
+import ProfilePhoto from '../Groups/GroupAvatars';
+import ProfilePhotoTask from './TaskAvatar'
 // import GetTasks from './GetTasks';
 
 
@@ -20,6 +22,9 @@ const TaskCard = ({ taskId, chore, assigned, date, isDone, groupId }) => {
       .doc(taskId)
       .delete()
   }
+
+  console.log("A:", assigned)
+  var assignedTest = ['Michael', 'Trevino']
 
   // async function handleEdits(e) {
   //   e.preventDefault()
@@ -49,7 +54,10 @@ const TaskCard = ({ taskId, chore, assigned, date, isDone, groupId }) => {
                     
           </th>
           <th>{chore}</th>
-          <th>{assigned}</th>
+          <th>{assigned.map(member => <ProfilePhotoTask
+            key={member.userId}
+            user={member} />
+            )}</th>
           <th>{date}</th>
           <th>
             <Tooltip title="Assign Person">

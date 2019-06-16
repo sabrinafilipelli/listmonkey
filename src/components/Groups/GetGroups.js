@@ -18,11 +18,22 @@ const GetGroups = () => {
           })
         )
       )
-    return () => {
-      unsubscribe()
-    }
-  }, [firebase.firestore, id])
+      return () => {
+        unsubscribe()
+      }
+    }, [firebase.firestore, id])
+    useEffect(() => {
 
+      firebase.firestore
+      .collection(`users/${id}/guestGroups`)
+      .onSnapshot(snapshot =>
+          snapshot.docs.map(doc => {
+            setGroups([...groups, doc.data()])
+          })
+        )
+      }
+      )
+          
   console.log(groups)
 
   return groups.map(group => (

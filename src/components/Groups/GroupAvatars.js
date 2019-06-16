@@ -13,12 +13,11 @@ const useStyles = makeStyles({
       margin: '1.3rem'
     }
   })
-  
+
   function ProfilePhoto(props) {
     const classes = useStyles()
 
-    console.log("P:", props)
-  
+
     return (
       <Avatar
         alt="photo of user"

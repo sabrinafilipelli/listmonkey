@@ -23,6 +23,19 @@ function useFormValidation(initialState, validate, authenticate) {
       ...previousValues,
       [event.target.name]: event.target.value
     }))
+    console.log(values)
+  }
+
+  function handleAssignClick(member) {
+    if (values.assigned.includes(member)) {
+      var index = values.assigned.indexOf(member)
+      values.assigned.splice(index, 1)
+    } else {
+      setValues(previousValues => ({
+        ...previousValues,
+        ["assigned"]: [...previousValues.assigned, member]
+      }))
+    }
   }
 
   function handleBlur() {
@@ -40,6 +53,7 @@ function useFormValidation(initialState, validate, authenticate) {
   return {
     handleSubmit,
     handleBlur,
+    handleAssignClick,
     handleChange,
     values,
     errors,

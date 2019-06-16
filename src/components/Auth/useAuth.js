@@ -12,7 +12,7 @@ function useAuth() {
         const parsed = queryString.parse(window.location.search)
         console.log("PARSED:", parsed)
         console.log("EMAIL:", email)
-        
+  
         if (!email) {
           email = window.prompt('Please provide your email for confirmation.')
         }
@@ -25,7 +25,7 @@ function useAuth() {
           .then(function(result) {
             window.localStorage.removeItem('emailForSignIn')
             window.localStorage.setItem('user', JSON.stringify(user))
-            return firebase.firestore
+            firebase.firestore
               .collection(
                 `users/${parsed.userId}/groups/${parsed.groupId}/members`
               )
@@ -35,6 +35,21 @@ function useAuth() {
                 displayName: result.user.displayName,
                 profilePicture: result.user.photoURL
               })
+
+            var newMemberId = JSON.parse(localStorage.getItem("user")).uid
+            firebase.firestore
+              .collection(
+                `users/${newMemberId}/guestGroups`
+                )
+              .doc(parsed.groupId)
+              .set({
+                groupId: parsed.groupId,
+                groupName: parsed.groupName,
+                groupAdmin: parsed.userId
+              })
+            console.log("newMemberId:", newMemberId)
+            console.log("parsed.groupId:", parsed.groupId)
+            console.log("parsed.userId:", parsed.userId)
           })
           .catch(function(err) {
             console.log({ code: err.code, msg: err.message })

@@ -31,7 +31,7 @@ export default function AddTask({ history, match }) {
   
   const userInLocalStorage = JSON.parse(localStorage.getItem('user'))
   const { firebase, user } = useContext(FirebaseContext)
-  const { handleSubmit, handleChange, errors, values } = useFormValidation(
+  const { handleSubmit, handleChange, handleAssignClick, errors, values } = useFormValidation(
     initialState,
     validateTask,
     submitTask
@@ -103,13 +103,6 @@ export default function AddTask({ history, match }) {
       />
 
 
-          {/* <input
-            type="text"
-            name="assigned"
-            placeholder="Assign a Person"
-            value={values.assigned}
-            onChange={event => handleChange(event)}
-          /> */}
           <div>
     <div>Assigned To:</div>
     <ExpansionPanel className="grey lighten-3 editModalRound">
@@ -128,8 +121,10 @@ export default function AddTask({ history, match }) {
         {/* Here is the loop the get list of user in a group broken code Michael*/}
                 {members.map(member => (
                   <div> 
-                    <ProfilePhotoTask user={member}/>
-                    <h1>{member.displayName}</h1>
+                    <ProfilePhotoTask 
+                      key={member.userId} 
+                      user={member}
+                      onClick={event => handleAssignClick(member)}/>
                   </div>
                   ))}
 
