@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import GetTasks from '../components/Tasks/GetTasks'
 import InviteGenerator from '../components/Invites/InviteGenerator'
 import { FirebaseContext } from '../firebase'
 import ProfilePhoto from '../components/Groups/GroupAvatars'
 // import IMAGE1 from '../assets/group-page/png/IMAGE.png'
-import IMAGE2 from '../assets/group-page/png/IMAGE-1.png'
-import IMAGE3 from '../assets/group-page/png/IMAGE-2.png'
-import IMAGE4 from '../assets/group-page/png/IMAGE-3.png'
+// import IMAGE2 from '../assets/group-page/png/IMAGE-1.png'
+// import IMAGE3 from '../assets/group-page/png/IMAGE-2.png'
+// import IMAGE4 from '../assets/group-page/png/IMAGE-3.png'
 // import Modal from '@material-ui/core/Modal';
 // import Date from '../components/Tasks/Date'
 
@@ -17,6 +17,7 @@ const Group = ({ match }) => {
   const user = JSON.parse(localStorage.getItem('user'))
   const { firebase } = useContext(FirebaseContext)
   const [groupName, setGroupName] = useState('')
+  const [members, setMembers] = useState([])
   // const [selectedDate, handleDateChange] = useState(new Date());
 // console.log(firebase)
 
@@ -26,18 +27,22 @@ const Group = ({ match }) => {
 
   const membersRef = firebase.firestore
     .collection(`users/${user.uid}/groups/${match.params.groupId}/members`)
-    
-    membersRef
-    .onSnapshot(snap => 
-      snap.docs.map(member => console.log(member.data())))
-      // console.log("Snap:", snap.docs[0].data())
 
-    // console.log(membersRef.get().then(cod => console.log(cod)))
-    // console.log(membersRef)
-    
+  useEffect(() => {
+    var allMembers = [];
+    membersRef.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        allMembers.push(doc.data())
+      })
+      console.log(allMembers)
+      setMembers(allMembers)
+    })
+  }, [])
+
   useEffect(() => {
     groupRef.get().then(doc => setGroupName(doc.data().groupName))
   }, [groupName, groupRef])
+
 
   return (
     <div className="Dashboard">
@@ -62,8 +67,7 @@ const Group = ({ match }) => {
             </button>
           </Link>
 
-        </div>       
-            
+        </div>
         </div>
 
     <div className="bottomTableAndUsers">
@@ -75,33 +79,13 @@ const Group = ({ match }) => {
         <div>
           <h2 className="houseText">House Members</h2>
         </div>
-        {membersRef.onSnapshot(snap =>
-          snap.docs.map(member => {
-            console.log(member.data().displayName)
-            <h1>{member.data().displayName}</<h1>
-          }))
-        }
-{/* Work on this for the Avatars, need to map the members */}
+
           <div className="membersCardsView">
-            <div>
+            {members.map(member => (
               <div className="invitedMembers">
-                <ProfilePhoto/>
-              </div>
-              <div className="invitedMembers">      
-              <img src={IMAGE2} alt="a users profile" />       
-                {/* <ProfilePhoto/> */}
-              </div>
-            </div>
-            <div>
-              <div className="invitedMembers">
-              <img src={IMAGE3} alt="a users profile" />
-                {/* <ProfilePhoto/>                */}
-              </div>
-              <div className="invitedMembers">
-              <img src={IMAGE4} alt="a users profile" />
-                {/* <ProfilePhoto/>                */}
-              </div>
-            </div>
+                  <ProfilePhoto photoURL={member.profilePicture}/>
+                </div>
+            ))}
           </div>
 
           <div className="buttomInviteButton">
@@ -113,14 +97,10 @@ const Group = ({ match }) => {
               />
             </span>
           </div>
-        
 
 {/* <Date/> */}
-         
         </div>
       </div>
-
-    
     </div>
   )
 }

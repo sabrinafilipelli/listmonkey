@@ -14,13 +14,15 @@ const useStyles = makeStyles({
     }
   })
   
-  function ProfilePhoto() {
+  function ProfilePhoto(props) {
     const classes = useStyles()
+
+    console.log("P:", props)
   
     return (
       <Avatar
         alt="photo of user"
-        src={JSON.parse(localStorage.getItem('user')).photoURL}
+        src={props.photoURL}
         className={classes.bigAvatar}
       />
     )
