@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useContext, useReducer, useState, useEffect } from 'react'
 import useFormValidation from '../Auth/useFormValidation'
 import FirebaseContext from '../../firebase/context'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -28,12 +28,17 @@ function validateTask(values) {
 
 export default function AddTask({ history, match }) {
   // const [open, setOpen] = React.useState(false);
+  
+  const userInLocalStorage = JSON.parse(localStorage.getItem('user'))
   const { firebase, user } = useContext(FirebaseContext)
   const { handleSubmit, handleChange, errors, values } = useFormValidation(
     initialState,
     validateTask,
     submitTask
-  )
+    )
+  const [members, setMembers] = useState([])
+  var allMembers = [];
+
     // const [anchorEl, setAnchorEl] = React.useState(null);
   
     // function handleClick(event) {
@@ -43,7 +48,17 @@ export default function AddTask({ history, match }) {
     // function handleClose() {
     //   setAnchorEl(null);
     // }
+  const membersRef = firebase.firestore
+  .collection(`users/${userInLocalStorage.uid}/groups/${match.params.groupId}/members`)
 
+  useEffect(() => {
+    membersRef.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        allMembers.push(doc.data())
+      })
+      setMembers(allMembers)
+    })
+  }, [])
 
   async function submitTask() {
     try {
@@ -111,10 +126,12 @@ export default function AddTask({ history, match }) {
           <ExpansionPanelDetails>
               <div>
         {/* Here is the loop the get list of user in a group broken code Michael*/}
-                {/* {user.map(group => (
-                <ProfilePhotoTask/>
-                  ))} */}
-                  <ProfilePhotoTask/>
+                {members.map(member => (
+                  <div> 
+                    <ProfilePhotoTask user={member}/>
+                    <h1>{member.displayName}</h1>
+                  </div>
+                  ))}
 
                 <input
                 style= {{marginTop: "19px"}}

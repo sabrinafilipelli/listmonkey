@@ -14,33 +14,32 @@ const useStyles = makeStyles({
       height: '10vw'
     }
   })
-  
-  function ProfilePhotoTask({ assigned , user, groupId}) {
+
+  function ProfilePhotoTask(props) {
     const classes = useStyles()
-    const [editedAssigned, setEditedAssigned] = useState(assigned)  
+    // const [editedAssigned, setEditedAssigned] = useState(assigned)  
     // const id = JSON.parse(localStorage.getItem('user')).uid
-  
+
     return (
       <div className="avatar-and-name">
         <Avatar
           alt="photo of user"
-          src={JSON.parse(localStorage.getItem('user')).photoURL}
+          src={props.user.profilePicture}
           className={classes.Avatar}
         />
           <span className="user-name">
-           {JSON.parse(localStorage.getItem('user')).displayName.match(/[^\s,.'"!?]+/)[0]}
+           {props.user.displayName.match(/[^\s,.'"!?]+/)[0]}
              {/* <input
               type="text"
               placeholder={assigned}
               value={editedAssigned}
               onChange={e => setEditedAssigned(e.target.value)}
             /> */}
-            
         </span>
       </div>
     )
   }
-  
+
   export default ProfilePhotoTask
 //   <input
 //   type="text"
