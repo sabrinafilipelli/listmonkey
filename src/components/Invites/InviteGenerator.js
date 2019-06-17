@@ -1,12 +1,18 @@
 import React, { useState, useContext } from 'react'
 import { FirebaseContext } from '../../firebase/index'
 
-export default function InviteGenerator({ groupId, userId, history }) {
+export default function InviteGenerator({ groupName, groupId, userId, history }) {
   const [email, setEmail] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const { firebase } = useContext(FirebaseContext)
+
+  console.log(groupName)
+  console.log(groupId)
+  console.log(userId)
+  console.log(email)
+
 
   const toggleForm = () => {
     setShowForm(prevState => !prevState)
@@ -17,7 +23,7 @@ export default function InviteGenerator({ groupId, userId, history }) {
   const sendInvite = async e => {
     e.preventDefault()
     try {
-      await firebase.sendEmailInvite(email, groupId, userId)
+      await firebase.sendEmailInvite(email, groupId, userId, groupName)
       setSuccess('The invite has been sent.')
       window.localStorage.setItem('emailForSignIn', JSON.stringify(email))
     } catch (err) {

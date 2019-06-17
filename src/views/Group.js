@@ -15,32 +15,85 @@ import ProfilePhoto from '../components/Groups/GroupAvatars'
 
 const Group = ({ match }) => {
   const user = JSON.parse(localStorage.getItem('user'))
+  console.log(match)
   const { firebase } = useContext(FirebaseContext)
   const [groupName, setGroupName] = useState('')
   const [members, setMembers] = useState([])
+  const [groupAdmin, setGroupAdmin] = useState('placeholder')
+
   // const [selectedDate, handleDateChange] = useState(new Date());
 // console.log(firebase)
+  console.log("GroupId:", match.params.groupId) 
 
   const groupRef = firebase.firestore
     .collection(`users/${user.uid}/groups`)
     .doc(match.params.groupId)
+    
+  const guestGroupRef = firebase.firestore
+    .collection(`users/${user.uid}/guestGroups`)
+    .doc(match.params.groupId)
 
   const membersRef = firebase.firestore
-    .collection(`users/${user.uid}/groups/${match.params.groupId}/members`)
+  .collection(`users/${user.uid}/groups/${match.params.groupId}/members`)
+  
+  // const groupAdminPromise = guestGroupRef.get().then(doc =>  doc.data().groupAdmin)
+  // var groupAdmin = groupAdminPromise.then(doc => doc)
+  console.log(groupAdmin)
+  
+  const guestsRef = firebase.firestore
+  .collection(`users/${groupAdmin}/groups/${match.params.groupId}/members`)
+  
+  // useEffect(() => {
+  //   guestGroupRef.get().then(doc => {
+  //     if doc.data()
+  //   }
+  //     )
+  //   })
+  //           groupRef.get().then(doc => {
+  //             if (doc.data()) { setGroupName(doc.data().groupName) }
+  //           }
+  //           )
 
+  var allMembers = [];
   useEffect(() => {
-    var allMembers = [];
     membersRef.get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         allMembers.push(doc.data())
+        console.log("1:", allMembers)
       })
-      console.log(allMembers)
-      setMembers(allMembers)
     })
-  }, [])
+
+    guestsRef.get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        console.log(doc.data())
+        allMembers.push(doc.data())
+        console.log("firing")
+        console.log(groupAdmin)
+        console.log("2:", allMembers)
+        setMembers(allMembers)
+      })
+    })
+      console.log(allMembers)
+    }, [groupAdmin])
+
+    // useEffect(() => {
+    //   setMembers(allMembers)
+    // }, [groupAdmin])
 
   useEffect(() => {
-    groupRef.get().then(doc => setGroupName(doc.data().groupName))
+    groupRef.get().then(doc => {
+      if (doc.data()) { setGroupName(doc.data().groupName) }
+    }
+    )
+
+    guestGroupRef.get().then(doc => {
+      if (doc.data()) { 
+        setGroupName(doc.data().groupName)
+        setGroupAdmin(doc.data().groupAdmin)
+      }
+    }
+    )
+
   }, [groupName, groupRef])
 
 
@@ -94,6 +147,7 @@ const Group = ({ match }) => {
               <InviteGenerator
                 groupId={match.params.groupId}
                 userId={user.uid}
+                groupName={groupName}
               />
             </span>
           </div>

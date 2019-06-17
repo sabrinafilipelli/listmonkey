@@ -4,6 +4,8 @@ import { ComplexButton } from '../Common'
 import FirebaseContext from '../../firebase/context'
 
 const GroupCard = ({ groupName, id }) => {
+
+  console.log("GC Firing!")
   const { firebase, user } = useContext(FirebaseContext)
   const [editedName, setEditedName] = useState('')
   const [editing, setEditing] = useState(false)

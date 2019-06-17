@@ -43,9 +43,9 @@ class Firebase {
     await this.auth.sendPasswordResetEmail(email)
   }
 
-  async sendEmailInvite(email, groupId, userId) {
+  async sendEmailInvite(email, groupId, userId, groupName) {
     await this.auth.sendSignInLinkToEmail(email, {
-      url: `http://localhost:3000/login?groupId=${groupId}&userId=${userId}`,
+      url: `http://localhost:3000/login?groupId=${groupId}&userId=${userId}&groupName=${groupName}`,
       handleCodeInApp: true
     })
   }
