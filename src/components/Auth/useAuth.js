@@ -45,7 +45,8 @@ function useAuth() {
               .set({
                 groupId: parsed.groupId,
                 groupName: parsed.groupName,
-                groupAdmin: parsed.userId
+                groupAdmin: parsed.userId,
+                id: parsed.groupId
               })
             console.log("newMemberId:", newMemberId)
             console.log("parsed.groupId:", parsed.groupId)

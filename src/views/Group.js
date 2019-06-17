@@ -15,66 +15,67 @@ import ProfilePhoto from '../components/Groups/GroupAvatars'
 
 const Group = ({ match }) => {
   const user = JSON.parse(localStorage.getItem('user'))
-  console.log(match)
+  // console.log(match)
   const { firebase } = useContext(FirebaseContext)
   const [groupName, setGroupName] = useState('')
   const [members, setMembers] = useState([])
-  const [groupAdmin, setGroupAdmin] = useState('placeholder')
+  const [groupAdmin, setGroupAdmin] = useState('ignore')
 
   // const [selectedDate, handleDateChange] = useState(new Date());
 // console.log(firebase)
-  console.log("GroupId:", match.params.groupId) 
+  console.log("GroupId:", match.params.groupId)
 
   const groupRef = firebase.firestore
     .collection(`users/${user.uid}/groups`)
     .doc(match.params.groupId)
-    
+
   const guestGroupRef = firebase.firestore
     .collection(`users/${user.uid}/guestGroups`)
     .doc(match.params.groupId)
 
   const membersRef = firebase.firestore
   .collection(`users/${user.uid}/groups/${match.params.groupId}/members`)
-  
-  // const groupAdminPromise = guestGroupRef.get().then(doc =>  doc.data().groupAdmin)
-  // var groupAdmin = groupAdminPromise.then(doc => doc)
-  console.log(groupAdmin)
-  
+
   const guestsRef = firebase.firestore
   .collection(`users/${groupAdmin}/groups/${match.params.groupId}/members`)
-  
-  // useEffect(() => {
-  //   guestGroupRef.get().then(doc => {
-  //     if doc.data()
-  //   }
-  //     )
-  //   })
-  //           groupRef.get().then(doc => {
-  //             if (doc.data()) { setGroupName(doc.data().groupName) }
-  //           }
-  //           )
+
+  console.log("User UID:", user.uid)
+  console.log("GroupdAdmin:", groupAdmin)
+
+  membersRef.doc(user.uid).set({
+    displayName: user.displayName,
+    profilePicture: user.photoURL,
+    userId: user.uid
+  })
 
   var allMembers = [];
   useEffect(() => {
-    membersRef.get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        allMembers.push(doc.data())
-        console.log("1:", allMembers)
-      })
-    })
+    if (groupAdmin == "ignore") {
 
-    guestsRef.get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        console.log(doc.data())
-        allMembers.push(doc.data())
-        console.log("firing")
-        console.log(groupAdmin)
-        console.log("2:", allMembers)
-        setMembers(allMembers)
+      membersRef.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          console.log("mem doc:", doc.data())
+          allMembers.push(doc.data())
+          console.log("allMembers-MEM:", allMembers )
+        })
       })
-    })
-      console.log(allMembers)
-    }, [groupAdmin])
+    } else {
+
+      guestsRef.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          console.log("gue doc:", doc.data())
+          allMembers.push(doc.data())
+          console.log("allMembers-GUE:", allMembers )
+          setMembers(allMembers)
+          console.log("members set", members)
+        })
+      })
+    }
+
+  console.log("allMembers:", allMembers )
+    console.log("firing")
+    setMembers(allMembers)
+  }, [groupAdmin])
 
     // useEffect(() => {
     //   setMembers(allMembers)
@@ -96,7 +97,10 @@ const Group = ({ match }) => {
 
   }, [groupName, groupRef])
 
-
+  console.log("ultima:members:", members)
+  members.forEach(member => console.log(member))
+  console.log("displayName:", members.displayName)
+  console.log("memebers length:", members.length)
   return (
     <div className="Dashboard">
       <div className="topHeaderAndButtons">

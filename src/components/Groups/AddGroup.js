@@ -23,6 +23,14 @@ export default function AddGroup({ history }) {
     submitGroup
   )
 
+  if (user) {
+
+    console.log(user)
+    console.log(user.photoURL)
+    console.log(user.displayName)
+    console.log(user.uid)
+  } 
+  
   useEffect(() => {
     async function setUser() {
       await firebase.firestore
@@ -38,7 +46,11 @@ export default function AddGroup({ history }) {
       const docRef = firebase.firestore
         .collection(`users/${user.uid}/groups`)
         .doc()
-      await docRef.set({ groupName: values.groupName, groupId: docRef.id })
+        await docRef.set({ groupName: values.groupName, groupId: docRef.id })
+        .collection
+        
+        console.log(docRef.id)
+
     } catch (err) {
       console.error({ error: err.message })
     } finally {
